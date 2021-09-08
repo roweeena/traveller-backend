@@ -5,6 +5,7 @@ resources :trips
 resources :locations
 resources :expenses
 resources :attendees
+resources :checklists
 
 post '/login' => "sessions#create"
 delete '/logout' => 'sessions#destroy'

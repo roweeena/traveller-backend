@@ -21,11 +21,18 @@ l3 = Location.create(:name => "Dubbo")
 l4 = Location.create(:name => "Byron Bay")
 puts "#{ Location.count } locations created"
 
+Checklist.destroy_all
+c1 = Checklist.create(:todoList => "Pack a toothbrush, Check phone is charged, Buy snacks")
+c2 = Checklist.create(:todoList => "Pack an extra jacket, bring a DVD")
+c3 = Checklist.create(:todoList => "Buy new boots, Go to the BWS")
+c4 = Checklist.create(:todoList => "Buy a swimming cossie, pack sunscreen")
+puts "#{ Checklist.count } checklists created"
+
 Trip.destroy_all
-t1 = Trip.create(:dates => "24/10/2021 - 31/10/2021")
-t2 = Trip.create(:dates => "20/11/2021 - 24/11/2021")
-t3 = Trip.create(:dates => "24/12/2021 - 31/12/2021")
-t4 = Trip.create(:dates => "24/01/2022 - 27/01/2022")
+t1 = Trip.create(:start => "2021-10-21", :end => "2021-10-31")
+t2 = Trip.create(:start => "2021-11-20", :end => "2021-11-24")
+t3 = Trip.create(:start => "2021-12-24", :end => "2021-12-31")
+t4 = Trip.create(:start => "2022-01-24" , :end => "2022-01-27")
 puts "#{ Trip.count } trips created"
 
 ####################
@@ -40,6 +47,11 @@ puts 'Users and trips'
 u2.trips << t1
 u1.trips << t3
 u3.trips << t2
+
+puts 'Users and checklists'
+u2.checklists << c1
+u1.checklists << c3
+u3.checklists << c2
 
 puts 'Locations and trips'
 l1.trips << t1
