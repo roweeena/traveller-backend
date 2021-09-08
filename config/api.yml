@@ -1,0 +1,6 @@
+development:
+  GOOGLE_API_KEY:  Rails.application.apisecret.google_api_key
+  FIREBASE_API_KEY: Rails.application.apisecret.firebase_api_key
+production:
+  GOOGLE_API_KEY:  Rails.application.apisecret.google_api_key
+  FIREBASE_API_KEY: Rails.application.apisecret.firebase_api_key
