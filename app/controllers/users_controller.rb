@@ -17,12 +17,10 @@ require 'httparty'
 
   def show
     user = User.find(params[:id])
-    trip = Trip.all.where(user_id: params[:id])
+    checklist = Checklist.all.where(user_id: params[:id])
     if user
-       render json: {
-       user: user,
-       trip: trip
-    }
+      render json: user, include: [:trips, :checklists]
+
     else
        render json: {
        status: 500,
@@ -42,10 +40,12 @@ resp = HTTParty.post("https://identitytoolkit.googleapis.com/v1/accounts:signUp?
         )
 
         if resp.key?('idToken')
-            User.create(name: resp["name"], email: resp["email"], uid: resp["localId"])
-            return {message: 'Success', token: resp['idToken']}
+          user = User.create(name: params["name"], email: params["email"], uid: resp["localId"])
+            puts user.errors.full_messages if user.errors.any?
+            render json: {message: 'Success', token: resp['idToken'], uid:resp["localId"]}
         else
-            return {message: resp["error"]["errors"][0]}
+            puts resp
+            render json: {message: resp["error"]["errors"][0]}
         end
 end
 

@@ -16,7 +16,9 @@ class TripsController < ApplicationController
 
   def create
     @trip = Trip.create trip_params
+    @user = User.find_by :uid => params[:uid]
     if @trip
+      @user.trips << @trip
        render json: {
        trip: @trip
     }
@@ -31,10 +33,8 @@ class TripsController < ApplicationController
   def show
     @trip = Trip.find (params[:id])
     if @trip
-       render json: {
-       trip: @trip
-    }
-    else
+       render json: @trip, include: [:checklists, :user]
+     else
        render json: {
        status: 500,
        errors: ['Account not found']
@@ -54,7 +54,7 @@ class TripsController < ApplicationController
 
   private
   def trip_params
-    params.require(:trip).permit(:start, :end, :location_id, :user_id)
+    params.require(:trip).permit(:start, :end, :location, :user_id)
   end
 
 

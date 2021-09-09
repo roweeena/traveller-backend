@@ -2,9 +2,7 @@ Rails.application.routes.draw do
 
 resources :users, only: [ :create, :create_user, :show, :index]
 resources :trips
-resources :locations
 resources :expenses
-resources :attendees
 resources :checklists
 
 post '/login' => "sessions#create"

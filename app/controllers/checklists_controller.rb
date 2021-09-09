@@ -15,10 +15,16 @@ class ChecklistsController < ApplicationController
   end
 
   def create
-    @checklist = Checklist.create checklist_params
-    if @checklist
+    # @checklist = Checklist.create :todoList => params[:todoList][0][:name]
+    @user = User.find_by :uid => params[:uid]
+    @trip = @user.trips.last
+    params[:todoList].each do |t|
+      @trip.checklists << Checklist.create(:todoList => t[:name])
+    end
+    if @trip.checklists.any?
        render json: {
-       checklist: @checklist
+       checklist: @trip.checklists,
+       id: @trip.id
     }
   else
       render json: {
@@ -54,7 +60,7 @@ class ChecklistsController < ApplicationController
 
   private
   def checklist_params
-    params.require(:checklist).permit(:todoList, :location_id, :user_id, :trip_id)
+    params.require(:todoList).permit(:todoList, :user_id, :trip_id)
   end
 
 end
