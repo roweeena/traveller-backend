@@ -17,17 +17,14 @@ class TripsController < ApplicationController
   def create
     @trip = Trip.create trip_params
     @user = User.find_by :uid => params[:uid]
-    if @trip
+    if @user.present?
       @user.trips << @trip
        render json: {
        trip: @trip
     }
-  else
-      render json: {
-      status: 500,
-      error: ['No trip found']
-  }
- end
+      else
+       User.last.trips << @trip
+     end
   end
 
   def show
